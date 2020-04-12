@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import classNames from 'classnames';
+import useOnClickOutside from 'use-onclickoutside';
 
 import Menu from './components/Menu';
 import Arrow from './components/Arrow';
-import { useOutsideClick } from './hooks/use-outside-click';
 import { parseOptionsValue } from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
 
@@ -48,15 +48,13 @@ function Dropdown({
     }
   };
 
-  useOutsideClick({
-    ref: dropdownNode,
-    handler: () => {
-      if (isOpen) {
-        setIsOpen(false);
-        handleOpenStateEvents(false);
-      }
-    },
+  useOnClickOutside(dropdownNode, () => {
+    if (isOpen) {
+      setIsOpen(false);
+      handleOpenStateEvents(false);
+    }
   });
+
 
   const handleMouseDown = event => {
     if (typeof onFocus === 'function') {
